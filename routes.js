@@ -1,5 +1,6 @@
 const express = require('express');
 const boatController = require('./controllers/boatController'); // Path to your boatController
+const userController = require('./controllers/userController'); // Path to your userController
 const router = express.Router();
 
 // POST route to create a boat
@@ -14,5 +15,14 @@ router.delete('/boats/:boatId', boatController.deleteBoat);
 // GET route to search for boats
 router.get('/boats/search', boatController.searchBoats);
 
-// ... include this router in your main server file
+router.post('/users', userController.createUser);
+
+router.get('/users', userController.getUsers);
+
+router.get('/users/:id', userController.getUser);
+
+router.patch('/users/:id', userController.updateUser);
+
+router.delete('/users/:id', userController.deleteUser);
+
 module.exports = router;
