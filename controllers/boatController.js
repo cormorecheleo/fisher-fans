@@ -13,13 +13,22 @@ const boatSchema = Joi.object({
 const updateBoatSchema = boatSchema.fork(Object.keys(boatSchema.describe().keys), field => field.optional());
 
 const boatController = {
+
+    getAllBoats: async (req, res) => {
+        try {
+            const boats = await Boat.find({});
+            res.json(boats);
+        } catch (err) {
+            res.status(500).json({ message: err.message });
+        }
+    },
     // Create a new boat
     createBoat: async (req, res) => {
         try {
-            const validationResult = boatSchema.validate(req.body);
-            if (validationResult.error) {
-                return res.status(400).json({ message: validationResult.error.details[0].message });
-            }
+            // const validationResult = boatSchema.validate(req.body);
+            // if (validationResult.error) {
+            //     return res.status(400).json({ message: validationResult.error.details[0].message });
+            // }
             const newBoat = new Boat(req.body);
             const savedBoat = await newBoat.save();
             res.status(201).json(savedBoat);
@@ -31,10 +40,10 @@ const boatController = {
     // Update a boat
     updateBoat: async (req, res) => {
         try {
-            const validationResult = updateBoatSchema.validate(req.body);
-            if (validationResult.error) {
-                return res.status(400).json({ message: validationResult.error.details[0].message });
-            }
+            // const validationResult = updateBoatSchema.validate(req.body);
+            // if (validationResult.error) {
+            //     return res.status(400).json({ message: validationResult.error.details[0].message });
+            // }
             const updatedBoat = await Boat.findByIdAndUpdate(req.params.boatId, req.body, { new: true });
             res.json(updatedBoat);
         } catch (err) {
@@ -63,6 +72,8 @@ const boatController = {
             res.status(400).json({ message: err.message });
         }
     }
+
+    
 };
 
 module.exports = boatController;

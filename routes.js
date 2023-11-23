@@ -14,5 +14,8 @@ router.delete('/boats/:boatId', boatController.deleteBoat);
 // GET route to search for boats
 router.get('/boats/search', boatController.searchBoats);
 
+// GET all boats
+router.get('/boats/search', boatController.searchBoats);
+
 // ... include this router in your main server file
 module.exports = router;
