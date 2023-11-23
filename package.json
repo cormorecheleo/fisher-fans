@@ -1,0 +1,14 @@
+{
+  "name": "fisher-fans",
+  "version": "1.0.0",
+  "description": "Ce document fournit une documentation de base pour le projet Fisher Fans, une application basée sur Express.js. Assurez-vous de mettre à jour cette documentation au fur et à mesure que le projet évolue.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
