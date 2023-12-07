@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const boatRoutes = require('./routes'); // Ensure the path is correct
 const boatSchema = require('./models/Boat')
+require('dotenv').config();
 const app = express();
 const port = 3000;
 

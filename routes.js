@@ -1,21 +1,28 @@
 const express = require('express');
-const boatController = require('./controllers/boatController'); // Path to your boatController
+const boatController = require('./controllers/boatController'); // Importing boatController for boat-related operations
+const userController = require('./controllers/userController'); // Importing userController for user-related operations
+const authController = require('./controllers/authController'); // Importing authController for authentication processes
+const authenticate = require('./middlewares/authenticate');
 const router = express.Router();
 
-// POST route to create a boat
-router.post('/boats', boatController.createBoat);
+// Authentication Routes
+router.post('/signup', authController.signup); // Route for user signup
+router.post('/login', authController.login);   // Route for user login
 
-// PUT route to update a boat
-router.put('/boats/:boatId', boatController.updateBoat);
+// Boat Routes
+router.post('/boats', authenticate ,boatController.createBoat); // Route to create a new boat
+router.put('/boats/:boatId', boatController.updateBoat); // Route to update a specific boat by boatId
+router.delete('/boats/:boatId', boatController.deleteBoat); // Route to delete a specific boat by boatId
+router.get('/boats/search', boatController.searchBoats); // Route to search for boats based on query parameters
 
-// DELETE route to delete a boat
-router.delete('/boats/:boatId', boatController.deleteBoat);
+// The above 'search boats' route seems to be duplicated, which might be a mistake.
+// Consider removing or modifying one of the duplicate routes.
 
-// GET route to search for boats
-router.get('/boats/search', boatController.searchBoats);
+// User Routes
+router.post('/users', userController.createUser); // Route to create a new user
+router.get('/users', userController.getUsers); // Route to retrieve all users
+router.get('/users/:id', userController.getUser); // Route to retrieve a specific user by id
+router.patch('/users/:id', userController.updateUser); // Route to update a specific user by id
+router.delete('/users/:id', userController.deleteUser); // Route to delete a specific user by id
 
-// GET all boats
-router.get('/boats/search', boatController.searchBoats);
-
-// ... include this router in your main server file
-module.exports = router;
+module.exports = router; // Exporting the router for use in the main server file
