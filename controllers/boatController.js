@@ -1,16 +1,4 @@
-const Joi = require('joi');
 const Boat = require('../models/Boat'); // Ensure the path is correct
-
-// Joi validation schemas
-const boatSchema = Joi.object({
-    name: Joi.string().required(),
-    type: Joi.string().required(),
-    length: Joi.number().required(),
-    yearBuilt: Joi.number().required(),
-    // Add more fields as needed
-});
-
-const updateBoatSchema = boatSchema.fork(Object.keys(boatSchema.describe().keys), field => field.optional());
 
 const boatController = {
 
@@ -25,10 +13,6 @@ const boatController = {
     // Create a new boat
     createBoat: async (req, res) => {
         try {
-            // const validationResult = boatSchema.validate(req.body);
-            // if (validationResult.error) {
-            //     return res.status(400).json({ message: validationResult.error.details[0].message });
-            // }
             const newBoat = new Boat(req.body);
             const savedBoat = await newBoat.save();
             res.status(201).json(savedBoat);
@@ -40,10 +24,6 @@ const boatController = {
     // Update a boat
     updateBoat: async (req, res) => {
         try {
-            // const validationResult = updateBoatSchema.validate(req.body);
-            // if (validationResult.error) {
-            //     return res.status(400).json({ message: validationResult.error.details[0].message });
-            // }
             const updatedBoat = await Boat.findByIdAndUpdate(req.params.boatId, req.body, { new: true });
             res.json(updatedBoat);
         } catch (err) {
