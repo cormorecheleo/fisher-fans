@@ -11,7 +11,12 @@ const updateTripSchema = tripSchema.fork(Object.keys(tripSchema.describe().keys)
 
 const tripController = {
 
-    // Create a trip
+    /**
+     * BF-005 : L'API FF devra permettre de créer une sortie bateau
+     * @param {*} req 
+     * @param {*} res 
+     * @returns json
+     */
     createTrip: async (req,res) => {
         try {
             const { tripName, boatId } = req.body;
@@ -42,6 +47,24 @@ const tripController = {
             res.status(400).json({message: err.message});
         }
     },
+
+    /**
+     * BF-010 : L’API FF devra permettre de supprimer une sortie pêche
+     * @param {*} req 
+     * @param {*} res 
+     */
+    deleteTrip: async (req,res) => {
+        try {
+            const tripId = req.body.tripId;
+            if(!tripId){
+                return res.status(400).json({message:"tripId not valid"});
+            }
+            const deleteTrip = await Trip.findByIdAndRemove(tripId);
+            res.json({message:"Trip deleted successfully !"});
+        } catch (err) {
+            res.status(400).json({message: err.message});
+        }
+    }
 
 }
 
