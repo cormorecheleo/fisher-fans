@@ -4,11 +4,15 @@ const userController = require('./controllers/userController'); // Importing use
 const authController = require('./controllers/authController'); // Importing authController for authentication processes
 const reservationController = require('./controllers/reservationController'); // Importing authController for authentication processes
 const authenticate = require('./middlewares/authenticate');
+const tripController = require('./controllers/tripController');
+
 const router = express.Router();
+
 
 // Authentication Routes
 router.post('/signup', authController.signup); // Route for user signup
 router.post('/login', authController.login);   // Route for user login
+
 
 // Boat Routes
 router.post('/boats', authenticate ,boatController.createBoat); // Route to create a new boat
@@ -27,11 +31,19 @@ router.patch('/users/:id', userController.updateUser); // Route to update a spec
 router.delete('/users/:id', userController.deleteUser); // Route to delete a specific user by id
 
 // Reservation routes 
-router.post('/reservations', reservationController.createReservation);
-router.get('/reservations/:reservationId', reservationController.getReservationById);
-router.put('/reservations/:reservationId', reservationController.updateReservation);
-router.delete('/reservations/:reservationId', reservationController.deleteReservation);
-router.get('/reservations/search', reservationController.searchReservations);
-router.get('/reservations', reservationController.getAllReservations);
+router.post('/reservations',authenticate, reservationController.createReservation);
+router.get('/reservations/:reservationId',authenticate, reservationController.getReservationById);
+router.put('/reservations/:reservationId', authenticate,reservationController.updateReservation);
+router.delete('/reservations/:reservationId', authenticate,reservationController.deleteReservation);
+router.get('/reservations/search', authenticate,reservationController.searchReservations);
+router.get('/reservations', authenticate,reservationController.getAllReservations);
 
-module.exports = router; // Exporting the router for use in the main server file
+/** TRIP ROUTES */
+
+// POST route
+router.post('/trips', tripController.createTrip);
+
+// PUT update trip
+router.put('/trips/:tripId', tripController.updateTrip);
+
+module.exports = router;
