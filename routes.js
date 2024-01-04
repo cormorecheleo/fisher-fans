@@ -13,9 +13,6 @@ const router = express.Router();
 router.post('/signup', authController.signup); // Route for user signup
 router.post('/login', authController.login);   // Route for user login
 
-/** BOAT ROUTES */
-// POST route to create a boat
-router.post('/boats', boatController.createBoat);
 
 // Boat Routes
 router.post('/boats', authenticate ,boatController.createBoat); // Route to create a new boat
