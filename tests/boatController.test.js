@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 const Boat = require('../models/Boat'); // Assurez-vous que le chemin est correct
 
 let token;
-const testObject = {
+let testObject = {
   "Description": "Luxury yacht with modern amenities",
   "Marque": "YachtMaker",
   "AnneeDeFabrication": 2020,
@@ -42,8 +42,9 @@ describe('Boat Controller Tests', () => {
         email: "test@example.com",
         password: "password123"
       });
-
+    
     token = response.body.token;
+    testObject = {...testObject, createdBy: response.body.user._id}
   }, 50000);
 
   beforeEach(async () => {

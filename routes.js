@@ -2,8 +2,8 @@ const express = require('express');
 const boatController = require('./controllers/boatController'); // Importing boatController for boat-related operations
 const userController = require('./controllers/userController'); // Importing userController for user-related operations
 const authController = require('./controllers/authController'); // Importing authController for authentication processes
+const reservationController = require('./controllers/reservationController'); // Importing authController for authentication processes
 const authenticate = require('./middlewares/authenticate');
-const boatController = require('./controllers/boatController'); // Path to your boatController
 const tripController = require('./controllers/tripController');
 
 const router = express.Router();
@@ -30,6 +30,13 @@ router.get('/users/:id', userController.getUser); // Route to retrieve a specifi
 router.patch('/users/:id', userController.updateUser); // Route to update a specific user by id
 router.delete('/users/:id', userController.deleteUser); // Route to delete a specific user by id
 
+// Reservation routes 
+router.post('/reservations',authenticate, reservationController.createReservation);
+router.get('/reservations/:reservationId',authenticate, reservationController.getReservationById);
+router.put('/reservations/:reservationId', authenticate,reservationController.updateReservation);
+router.delete('/reservations/:reservationId', authenticate,reservationController.deleteReservation);
+router.get('/reservations/search', authenticate,reservationController.searchReservations);
+router.get('/reservations', authenticate,reservationController.getAllReservations);
 
 /** TRIP ROUTES */
 
@@ -39,5 +46,4 @@ router.post('/trips', tripController.createTrip);
 // PUT update trip
 router.put('/trips/:tripId', tripController.updateTrip);
 
-// ... include this router in your main server file
 module.exports = router;
