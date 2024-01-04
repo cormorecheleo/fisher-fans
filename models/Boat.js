@@ -18,6 +18,11 @@ const boatSchema = new mongoose.Schema({
     Longitude: { type: Number, required: true },
     TypeDeMotorisation: { type: String, required: true },
     PuissanceDuMoteur: { type: Number, required: true },
+    createdBy: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
+    }
 });
 
 const Boat = mongoose.model('Boat', boatSchema);
