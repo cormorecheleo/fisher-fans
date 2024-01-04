@@ -3,7 +3,6 @@ const boatController = require('./controllers/boatController'); // Importing boa
 const userController = require('./controllers/userController'); // Importing userController for user-related operations
 const authController = require('./controllers/authController'); // Importing authController for authentication processes
 const authenticate = require('./middlewares/authenticate');
-const boatController = require('./controllers/boatController'); // Path to your boatController
 const tripController = require('./controllers/tripController');
 
 const router = express.Router();
