@@ -64,13 +64,35 @@ const boatController = {
           if (maxPower) {
             searchCriteria.PuissanceDuMoteur = { ...searchCriteria.PuissanceDuMoteur, $lte: parseInt(maxPower) };
           }
-    
-          const boats = await Boat.find(searchCriteria);
-          res.json(boats);
+            // Build the query based on request parameters
+            const query = {}; // Adjust this based on your search criteria and request parameters
+            const boats = await Boat.find(query);
+            res.json(boats);
         } catch (err) {
-          res.status(400).json({ message: err.message });
+            res.status(400).json({ message: err.message });
         }
-      }
+    },
+
+    findBoatByGeo: async (req, res) => {
+        try {
+
+            const { latitude, longitude } = req.query;
+
+            if (!latitude || !longitude) {
+                return res.status(400).json({ error: 'Latitude and longitude are required parameters.' });
+              }
+          
+              const foundBoat = await Boat.findOne({ latitude, longitude });
+
+              if (!foundBoat) {
+                return res.status(404).json({ error: 'Boat not found.' });
+              }
+          
+              res.json(foundBoat);
+        } catch (err) {
+            res.status(400).json({message: err.message});
+        }
+    }
 };
 
 module.exports = boatController;

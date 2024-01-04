@@ -37,6 +37,9 @@ router.put('/reservations/:reservationId', authenticate,reservationController.up
 router.delete('/reservations/:reservationId', authenticate,reservationController.deleteReservation);
 router.get('/reservations/search', authenticate,reservationController.searchReservations);
 router.get('/reservations', authenticate,reservationController.getAllReservations);
+// BF-23 : Récuperer la liste des bateaux dans une zone geo
+router.get('/boats/list', boatController.findBoatByGeo);
+
 
 /** TRIP ROUTES */
 
