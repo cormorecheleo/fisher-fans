@@ -4,7 +4,10 @@
   "description": "Ce document fournit une documentation de base pour le projet Fisher Fans, une application basée sur Express.js. Assurez-vous de mettre à jour cette documentation au fur et à mesure que le projet évolue.",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
+  },
+  "jest": {
+    "testEnvironment": "node"
   },
   "author": "",
   "license": "ISC",
@@ -17,5 +20,9 @@
     "mongodb": "^6.3.0",
     "mongoose": "^8.0.1",
     "nodemon": "^3.0.1"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "supertest": "^6.3.3"
   }
 }
