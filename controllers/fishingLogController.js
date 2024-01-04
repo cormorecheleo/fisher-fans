@@ -39,8 +39,8 @@ const fishingLogController = {
             if (validationResult.error) {
                 return res.status(400).json({ message: validationResult.error.details[0].message });
             }
-            const updateFishingLogSchema = await FishingLog.findByIdAndUpdate(req.params.fishingLogId, req.body, { new: true });
-            res.json(updateFishingLogSchema);
+            const updatedFishingLog = await FishingLog.findByIdAndUpdate(req.params.fishingLogId, req.body, { new: true });
+            res.json(updatedFishingLog);
         } catch (err) {
             res.status(400).json({ message: err.message });
         }

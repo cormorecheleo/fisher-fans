@@ -5,6 +5,7 @@ const authController = require('./controllers/authController'); // Importing aut
 const reservationController = require('./controllers/reservationController'); // Importing authController for authentication processes
 const authenticate = require('./middlewares/authenticate');
 const tripController = require('./controllers/tripController');
+const fishingLogController = require('./controllers/fishingLogController');
 
 const router = express.Router();
 
@@ -20,6 +21,12 @@ router.put('/boats/:boatId', boatController.updateBoat); // Route to update a sp
 router.delete('/boats/:boatId', boatController.deleteBoat); // Route to delete a specific boat by boatId
 router.get('/boats/search', boatController.searchBoats); // Route to search for boats based on query parameters
 router.get('/boats/all', boatController.getAllBoats); // Route to search for boats based on query parameters
+
+// Fishing Log Routes
+router.post('/fishingLog', authenticate , fishingLogController.createFishingLog); // Route to create a new boat
+router.put('/fishingLog/:fishingLogId', fishingLogController.updateFishingLog); // Route to update a specific boat by boatId
+router.delete('/fishingLog/:fishingLogId', fishingLogController.deleteFishingLog); // Route to delete a specific boat by boatId
+router.get('/fishingLog/search', fishingLogController.searchFishingLog); // Route to search for boats based on query parameters
 
 // The above 'search boats' route seems to be duplicated, which might be a mistake.
 // Consider removing or modifying one of the duplicate routes.
