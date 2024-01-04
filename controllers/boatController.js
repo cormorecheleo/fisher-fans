@@ -44,16 +44,33 @@ const boatController = {
     // Search for boats
     searchBoats: async (req, res) => {
         try {
-            // Build the query based on request parameters
-            const query = {}; // Adjust this based on your search criteria and request parameters
-            const boats = await Boat.find(query);
-            res.json(boats);
-        } catch (err) {
-            res.status(400).json({ message: err.message });
-        }
-    }
-
+          const { keyword, minYear, maxYear, minPower, maxPower } = req.query;
+          const searchCriteria = {};
+          if (keyword) {
+            searchCriteria.$or = [
+              { Nom: { $regex: keyword, $options: 'i' } }, // Case-insensitive search for the boat name
+              { Description: { $regex: keyword, $options: 'i' } }, // Case-insensitive search for the boat description
+            ];
+          }
+          if (minYear) {
+            searchCriteria.AnneeDeFabrication = { $gte: parseInt(minYear) };
+          }
+          if (maxYear) {
+            searchCriteria.AnneeDeFabrication = { ...searchCriteria.AnneeDeFabrication, $lte: parseInt(maxYear) };
+          }
+          if (minPower) {
+            searchCriteria.PuissanceDuMoteur = { $gte: parseInt(minPower) };
+          }
+          if (maxPower) {
+            searchCriteria.PuissanceDuMoteur = { ...searchCriteria.PuissanceDuMoteur, $lte: parseInt(maxPower) };
+          }
     
+          const boats = await Boat.find(searchCriteria);
+          res.json(boats);
+        } catch (err) {
+          res.status(400).json({ message: err.message });
+        }
+      }
 };
 
 module.exports = boatController;
