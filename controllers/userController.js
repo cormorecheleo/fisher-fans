@@ -60,6 +60,7 @@ const userController = {
       res.status(500).send(error);
     }
   }
+  
 }
 
 module.exports = userController;
