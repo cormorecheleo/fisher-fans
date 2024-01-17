@@ -1,15 +1,16 @@
 const Reservation = require('../models/Reservation');
 const User = require('../models/User');
-const Boat = require('../models/Boat');
+const Trip = require('../models/Trip');
 const mongoose = require('mongoose');
 
 const reservationController = {
   createReservation: async (req, res) => {
+    const userId = req.userId;
     try {
-      const user = await User.findById(req.body.userId);
-      const boat = await Boat.findById(req.body.boatId);
-      if (!user || !boat) {
-        return res.status(404).json({ error: 'User or boat not found' });
+      const user = await User.findById(userId);
+      const trip = await Trip.findById(req.body.tripId);
+      if (!user || !trip) {
+        return res.status(404).json({ error: 'User or trip not found' });
       }
 
       const reservationData = {
@@ -17,7 +18,7 @@ const reservationController = {
         NombreDePlacesReservees: req.body.NombreDePlacesReservees,
         PrixTotal: req.body.PrixTotal,
         user: user._id,
-        boat: boat._id,
+        trip: trip._id,
       };
 
       const reservation = await Reservation.create(reservationData);
@@ -32,7 +33,7 @@ const reservationController = {
     try {
       const reservations = await Reservation.find()
         .populate('user')
-        .populate('boat');
+        .populate('trip');
       res.json(reservations);
     } catch (error) {
       console.error(error);
@@ -44,7 +45,7 @@ const reservationController = {
     try {
       const reservation = await Reservation.findById(req.params.reservationId)
         .populate('user')
-        .populate('boat');
+        .populate('trip');
 
       if (!reservation) {
         return res.status(404).json({ error: 'Reservation not found' });
@@ -65,7 +66,7 @@ const reservationController = {
         { new: true }
       )
         .populate('user')
-        .populate('boat');
+        .populate('trip');
 
       if (!reservation) {
         return res.status(404).json({ error: 'Reservation not found' });
@@ -84,7 +85,7 @@ const reservationController = {
         req.params.reservationId
       )
         .populate('user')
-        .populate('boat');
+        .populate('trip');
 
       if (!reservation) {
         return res.status(404).json({ error: 'Reservation not found' });
@@ -99,7 +100,7 @@ const reservationController = {
 
   searchReservations: async (req, res) => {
     try {
-      const { startDate, endDate, userId, boatId } = req.query;
+      const { startDate, endDate, userId, tripId } = req.query;
       const searchCriteria = {};
 
       // Add search criteria based on query parameters
@@ -115,13 +116,13 @@ const reservationController = {
       if (userId) {
         searchCriteria.user = userId;
       }
-      if (boatId) {
-        searchCriteria.boat = boatId;
+      if (tripId) {
+        searchCriteria.trip = tripId;
       }
 
       const reservations = await Reservation.find(searchCriteria)
         .populate('user')
-        .populate('boat');
+        .populate('trip');
 
       res.json(reservations);
     } catch (error) {

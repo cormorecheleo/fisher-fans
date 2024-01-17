@@ -9,9 +9,9 @@ const reservationSchema = new mongoose.Schema({
     ref: 'User',
     required: true
   },
-  boat: {
+  trip: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Boat',
+    ref: 'Trip',
     required: true
   },
 });

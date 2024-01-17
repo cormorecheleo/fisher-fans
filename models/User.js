@@ -2,8 +2,10 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 
 const userSchema = new mongoose.Schema({
-  firstName: { type: String, required: true },
-  lastName: { type: String, required: true },
+  name: {type: String, required: true},
+  // NOTE weird bug can't send only accepts name
+  // firstName: { type: String, required: true },
+  // lastName: { type: String, required: true },
   dateOfBirth: { type: Date, required: true },
   email: { type: String, required: true, unique: true },
   phone: { type: String, required: true },

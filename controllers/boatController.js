@@ -13,6 +13,7 @@ const boatController = {
   createBoat: async (req, res) => {
     try {
       const createdBy = req.userId;
+      console.log('createdBy', createdBy);
       const newBoat = new Boat({ ...req.body, createdBy });
       const savedBoat = await newBoat.save();
       res.status(201).json(savedBoat);
@@ -24,6 +25,7 @@ const boatController = {
   // get user boats
   getUserBoats: async (req, res) => {
     const userId = req.userId;
+    console.log('userIDboat', userId);
     try {
       // Use the provided user ID to find boats associated with the user
       const userBoats = await Boat.find({ createdBy: userId });
@@ -38,12 +40,13 @@ const boatController = {
   // Update a boat
   updateBoat: async (req, res) => {
     try {
+      const userId = req.userId;
       const updatedBoat = await Boat.findByIdAndUpdate(
         req.params.boatId,
         req.body,
         { new: true }
       );
-      res.json(updatedBoat);
+      res.json({...updatedBoat, createdBy: userId});
     } catch (err) {
       res.status(400).json({ message: err.message });
     }
@@ -66,8 +69,8 @@ const boatController = {
       const searchCriteria = {};
       if (keyword) {
         searchCriteria.$or = [
-          { Nom: { $regex: keyword, $options: 'i' } }, // Case-insensitive search for the boat name
-          { Description: { $regex: keyword, $options: 'i' } }, // Case-insensitive search for the boat description
+          { Nom: { $regex: keyword, $options: 'i' } },
+          { Description: { $regex: keyword, $options: 'i' } },
         ];
       }
       if (minYear) {
@@ -89,8 +92,7 @@ const boatController = {
         };
       }
       // Build the query based on request parameters
-      const query = {}; // Adjust this based on your search criteria and request parameters
-      const boats = await Boat.find(query);
+      const boats = await Boat.find(searchCriteria);
       res.json(boats);
     } catch (err) {
       res.status(400).json({ message: err.message });
