@@ -1,88 +1,84 @@
-// const request = require('supertest');
-// const app = require('../server');
-// const mongoose = require('mongoose');
-// const User = require('../models/User');
-// const Boat = require('../models/Boat');
+const request = require('supertest');
+const app = require('../server');
+const mongoose = require('mongoose');
+const User = require('../models/User');
 
-// describe('User Controller Tests', () => {
-//   beforeAll(async () => {
-//     await mongoose.connect(process.env.MONGODB_URI);
-//     await User.deleteMany({});
-//     await Boat.deleteMany({});
-//   }, 50000);
+describe('User Controller Tests', () => {
+  let user;
+  let token;
 
-//   afterEach(async () => {
-//     await User.deleteMany({});
-//   });
+  beforeAll(async () => {
+    await mongoose.connect(process.env.MONGODB_URI);
 
-//   afterAll(async () => {
-//     await User.deleteMany({});
-//     await Boat.deleteMany({});
-//     await mongoose.connection.close();
-//   });
+    const response = await request(app)
+      .post('/auth/login')
+      .send({
+        email: "jesttests@doe.com",
+        password: "yourpassword"
+      });
 
-//   beforeEach(async () => {
-//     await User.deleteMany({});
-//   });
+    token = response.body.token;
+    user = response.body.user;
+  }, 50000);
+  afterAll(async () => {
+    await mongoose.connection.close();
+  });
 
+  it('should retrieve all users', async () => {
+    const response = await request(app)
+      .get('/users')
+      .set('Authorization', `Bearer ${token}`)
+      .expect(200);
 
-//   // Test pour créer un nouvel utilisateur
-//   it('should create a new user', async () => {
-//     const response = await request(app)
-//       .post('/users')
-//       .send({
-//         name: 'John Doe',
-//         email: 'john@example.com',
-//         password: 'password123'
-//       })
-//       .expect(201);
+    expect(Array.isArray(response.body)).toBe(true);
+  });
 
-//     expect(response.body.email).toBe('john@example.com');
-//   }, 10000);
+  it('should retrieve a single user by id', async () => {
+    const response = await request(app)
+      .get(`/users/${user._id}`)
+      .set('Authorization', `Bearer ${token}`)
+      .expect(200);
 
-//   // Test pour récupérer tous les utilisateurs
-//   it('should retrieve all users', async () => {
-//     await new User({ name: 'Alice', email: 'alice@example.com', password: 'password123' }).save();
+    expect(response.body._id).toBe(user._id.toString());
+  });
 
-//     const response = await request(app)
-//       .get('/users')
-//       .expect(200);
+  it('should update a user', async () => {
+    const updates = { name: 'Updated Name' };
+    const response = await request(app)
+      .patch(`/users/${user._id}`)
+      .set('Authorization', `Bearer ${token}`)
+      .send(updates)
+      .expect(200);
 
-//     expect(response.body[0].email).toBe('alice@example.com');
-//   }, 10000);
+    expect(response.body.name).toBe(updates.name);
+  });
 
-//   // Test pour récupérer un utilisateur par ID
-//   it('should retrieve a user by id', async () => {
-//     const user = await new User({ name: 'Bob', email: 'bob@example.com', password: 'password123' }).save();
+  it('should delete a user', async () => {
+    const response = await request(app)
+      .post('/auth/signup')
+      .send({
+        name: "kopkpk2",
+        dateOfBirth: "1990-01-01",
+        email: "test@example.com",
+        phone: "1234567890",
+        address: "123 Main St",
+        postalCode: "12345",
+        city: "City",
+        spokenLanguages: ["English", "French"],
+        photoURL: "http://example.com/photo.jpg",
+        boatLicenseNumber: "12345678",
+        insuranceNumber: "123456789012",
+        status: "particulier",
+        password: "password1232"
+      })
+      .expect(201);
+    console.log('response.body', response.body)
+    await request(app)
+      .delete(`/users/${response.body.user._id}`)
+      .set('Authorization', `Bearer ${token}`)
+      .expect(200);
 
-//     const response = await request(app)
-//       .get(`/users/${user._id}`)
-//       .expect(200);
-
-//     expect(response.body.name).toBe('Bob');
-//   }, 10000);
-
-//   // Test pour mettre à jour un utilisateur
-//   it('should update a user', async () => {
-//     const user = await new User({ name: 'Charlie', email: 'charlie@example.com', password: 'password123' }).save();
-
-//     const response = await request(app)
-//       .patch(`/users/${user._id}`)
-//       .send({ name: 'Charles' })
-//       .expect(200);
-
-//     expect(response.body.name).toBe('Charles');
-//   }, 10000);
-
-//   // Test pour supprimer un utilisateur
-//   it('should delete a user', async () => {
-//     const user = await new User({ name: 'David', email: 'david@example.com', password: 'password123' }).save();
-
-//     await request(app)
-//       .delete(`/users/${user._id}`)
-//       .expect(200);
-
-//     const deletedUser = await User.findById(user._id);
-//     expect(deletedUser).toBeNull();
-//   }, 10000);
-// });
+    const checkUser = await User.findById(response.body.user._id);
+    expect(checkUser).toBeNull();
+  });
+});
