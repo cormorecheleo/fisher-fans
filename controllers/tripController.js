@@ -99,7 +99,7 @@ const tripController = {
       if (!tripId) {
         return res.status(400).json({ message: 'tripId not valid' });
       }
-      const deleteTrip = await Trip.findByIdAndRemove(tripId);
+      const deleteTrip = await Trip.findByIdAndDelete(tripId);
       res.json({ message: 'Trip deleted successfully !' });
     } catch (err) {
       res.status(400).json({ message: err.message });
