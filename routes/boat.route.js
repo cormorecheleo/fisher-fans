@@ -4,7 +4,7 @@ const authenticate = require('../middlewares/authenticate');
 const router = express.Router();
 
 router.post('/', boatController.createBoat);
-router.get('/user', boatController.getUserBoats)
+router.get('/user', boatController.getUserBoats);
 router.get('/all', boatController.getAllBoats);
 router.get('/search', boatController.searchBoats);
 router.get('/list', boatController.findBoatByGeo);
@@ -12,8 +12,6 @@ router.put('/:boatId', boatController.updateBoat);
 router.delete('/:boatId', boatController.deleteBoat);
 
 module.exports = router;
-
-
 
 /**
  * @swagger
@@ -31,12 +29,14 @@ module.exports = router;
  *   name: Boat
  *   description: Boat operations
  *
+ *
  * @swagger
  * /boats/all:
  *   get:
  *     security:
- *       - BearerAuth: [] 
+ *       - BearerAuth: []
  *     summary: Get all boats
+ *     tags: [Boat]
  *     responses:
  *       200:
  *         description: Successful operation
@@ -51,8 +51,9 @@ module.exports = router;
  * /boats:
  *   post:
  *     security:
- *       - BearerAuth: [] 
+ *       - BearerAuth: []
  *     summary: Create a new boat
+ *     tags: [Boat]
  *     requestBody:
  *       description: Boat object to be added
  *       content:
@@ -74,8 +75,9 @@ module.exports = router;
  * /boats/user:
  *   get:
  *     security:
- *       - BearerAuth: [] 
+ *       - BearerAuth: []
  *     summary: Get boats associated with the authenticated user
+ *     tags: [Boat]
  *     responses:
  *       200:
  *         description: Successful operation
@@ -91,8 +93,9 @@ module.exports = router;
  * /boats/{boatId}:
  *   put:
  *     security:
- *       - BearerAuth: [] 
+ *       - BearerAuth: []
  *     summary: Update a boat
+ *     tags: [Boat]
  *     parameters:
  *       - in: path
  *         name: boatId
@@ -120,8 +123,9 @@ module.exports = router;
  *
  *   delete:
  *     security:
- *       - BearerAuth: [] 
+ *       - BearerAuth: []
  *     summary: Delete a boat
+ *     tags: [Boat]
  *     parameters:
  *       - in: path
  *         name: boatId
@@ -138,8 +142,9 @@ module.exports = router;
  * /boats/search:
  *   get:
  *     security:
- *       - BearerAuth: [] 
+ *       - BearerAuth: []
  *     summary: Search for boats based on criteria
+ *     tags: [Boat]
  *     parameters:
  *       - in: query
  *         name: keyword

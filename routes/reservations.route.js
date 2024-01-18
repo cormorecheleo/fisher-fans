@@ -44,15 +44,14 @@ module.exports = router;
  * tags:
  *   name: Reservation
  *   description: Reservation operations
- */
-
-/**
+ *
  * @swagger
  * /reservations:
  *   post:
  *     security:
  *       - BearerAuth: [] 
  *     summary: Create a new reservation
+ *     tags: [Reservation]
  *     requestBody:
  *       description: Reservation object to be added
  *       content:
@@ -78,6 +77,7 @@ module.exports = router;
  *     security:
  *       - BearerAuth: [] 
  *     summary: Get a reservation by ID
+ *     tags: [Reservation]
  *     parameters:
  *       - in: path
  *         name: reservationId
@@ -102,6 +102,7 @@ module.exports = router;
  *     security:
  *       - BearerAuth: [] 
  *     summary: Update a reservation
+ *     tags: [Reservation]
  *     parameters:
  *       - in: path
  *         name: reservationId
@@ -132,6 +133,7 @@ module.exports = router;
  *     security:
  *       - BearerAuth: [] 
  *     summary: Delete a reservation
+ *     tags: [Reservation]
  *     parameters:
  *       - in: path
  *         name: reservationId
@@ -153,6 +155,7 @@ module.exports = router;
  *     security:
  *       - BearerAuth: [] 
  *     summary: Search for reservations based on criteria
+ *     tags: [Reservation]
  *     parameters:
  *       - in: query
  *         name: startDate
@@ -196,4 +199,3 @@ module.exports = router;
  *             example:
  *               error: Internal Server Error
  */
-
