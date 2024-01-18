@@ -105,6 +105,54 @@ const tripController = {
       res.status(400).json({ message: err.message });
     }
   },
+
+  /**
+   * L'API FF devra permettre de rechercher des sorties bateau en fonction de critères
+   * @param {*} req
+   * @param {*} res
+   */
+  searchTrips: async (req, res) => {
+    try {
+      const keyword = req.query.keyword;
+      const minDate = req.query.minDate;
+      const maxDate = req.query.maxDate;
+      const minPassengers = req.query.minPassengers;
+      const maxPassengers = req.query.maxPassengers;
+
+      const searchCriteria = {};
+
+      if (keyword) {
+        searchCriteria.$or = [
+          { title: { $regex: keyword, $options: 'i' } },
+          { informationsPratiques: { $regex: keyword, $options: 'i' } },
+        ];
+      }
+
+      if (minDate) {
+        searchCriteria.datesDebut = { $gte: new Date(minDate) };
+      }
+
+      if (maxDate) {
+        searchCriteria.datesFin = { $lte: new Date(maxDate) };
+      }
+
+      if (minPassengers) {
+        searchCriteria.nombrePassagers = { $gte: parseInt(minPassengers) };
+      }
+
+      if (maxPassengers) {
+        searchCriteria.nombrePassagers = {
+          ...searchCriteria.nombrePassagers,
+          $lte: parseInt(maxPassengers),
+        };
+      }
+
+      const matchingTrips = await Trip.find(searchCriteria);
+      res.json(matchingTrips);
+    } catch (err) {
+      res.status(500).json({ message: err.message });
+    }
+  },
 };
 
 module.exports = tripController;

@@ -1,50 +1,89 @@
+const request = require('supertest');
+const app = require('../server');
+const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
+const User = require('../models/User');
 
-// const request = require('supertest'); const app = require('../server');
-// const mongoose = require('mongoose');
-// const User = require('../models/User');
+describe('Auth Controller Tests', () => {
+  beforeAll(async () => {
+    await mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+    await User.deleteOne({ email: "test@example.com" });
+    await User.deleteOne({ email: "login@example.com" });
+  }, 30000);
 
-// describe('Auth Controller Tests', () => {
-//   beforeAll(async () => {
-//     await mongoose.connect(process.env.MONGODB_URI);
-//   }, 30000);
+  beforeEach(async () => {
+    // Delete users based on their email addresses used in the tests
 
-//   beforeEach(async () => {
-//     await User.deleteMany({});
-//   });
+  });
 
-//   afterAll(async () => {
-//     await User.deleteMany();
-//     await mongoose.connection.close();
-//   });
+  afterAll(async () => {
+    await User.deleteOne({ email: "test@example.com" });
+    await User.deleteOne({ email: "login@example.com" });
+    await mongoose.connection.close();
+  });
 
-//   it('should sign up a new user', async () => {
-//     const response = await request(app)
-//       .post('/signup')
-//       .send({
-//         name: "Test User",
-//         email: "test@example.com",
-//         password: "password123"
-//       })
-//       .expect(201);
+  it('should sign up a new user', async () => {
+    const response = await request(app)
+      .post('/auth/signup')
+      .send({
+        name: "kopkpk",
+        dateOfBirth: "1990-01-01",
+        email: "test@example.com",
+        phone: "1234567890",
+        address: "123 Main St",
+        postalCode: "12345",
+        city: "City",
+        spokenLanguages: ["English", "French"],
+        photoURL: "http://example.com/photo.jpg",
+        boatLicenseNumber: "12345678",
+        insuranceNumber: "123456789012",
+        status: "particulier",
+        password: "password123"
+      })
+      .expect(201);
 
-//     expect(response.body.token).toBeDefined();
-//   }, 30000);
+    expect(response.body.token).toBeDefined();
+  }, 30000);
 
-//   it('should login an existing user', async () => {
-//     const user = await User.create({
-//       name: "Test User",
-//       email: "login@example.com",
-//       password: "password123"
-//     });
+  it('should fail to sign up with missing required fields', async () => {
+    const response = await request(app)
+      .post('/auth/signup')
+      .send({
+        email: "test@example.com",
+        password: "password123"
+      })
+      .expect(400);
 
-//     const response = await request(app)
-//       .post('/login')
-//       .send({
-//         email: "login@example.com",
-//         password: "password123"
-//       })
-//       .expect(200);
+    expect(response.body.message).toContain("validation failed");
+  }, 10000);
 
-//     expect(response.body.token).toBeDefined();
-//   }, 10000);
-// });
+  it('should login an existing user', async () => {
+    // const hashedPassword = await bcrypt.hash("password123", 10);
+    // const user = await User.create({
+    //   name: "nininin",
+    //   dateOfBirth: "1990-01-01",
+    //   email: "login@example.com",
+    //   phone: "1234567890",
+    //   address: "123 Main St",
+    //   postalCode: "12345",
+    //   city: "City",
+    //   spokenLanguages: ["English", "French"],
+    //   photoURL: "http://example.com/photo.jpg",
+    //   boatLicenseNumber: "12345698",
+    //   insuranceNumber: "123456789092",
+    //   status: "particulier",
+    //   password: hashedPassword
+    // });
+
+    const response = await request(app)
+      .post('/auth/login')
+      .send({
+        email: "test@example.com",
+        password: "password123"
+      })
+      .expect(200);
+
+    expect(response.body.token).toBeDefined();
+  }, 10000);
+
+});

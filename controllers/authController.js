@@ -18,6 +18,7 @@ const login = async (req, res) => {
   try {
     const user = await User.findOne({ email: req.body.email });
     if (!user || !(await bcrypt.compare(req.body.password, user.password))) {
+      res.status(400).send("incorrectPassword");
       throw new Error('Unable to login');
     }
 
