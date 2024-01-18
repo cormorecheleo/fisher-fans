@@ -3,8 +3,8 @@ const boatController = require('../controllers/boatController');
 const authenticate = require('../middlewares/authenticate');
 const router = express.Router();
 
-router.post('/', authenticate, boatController.createBoat);
-router.get('/user', authenticate, boatController.getUserBoats)
+router.post('/', boatController.createBoat);
+router.get('/user', boatController.getUserBoats)
 router.get('/all', boatController.getAllBoats);
 router.get('/search', boatController.searchBoats);
 router.get('/list', boatController.findBoatByGeo);
@@ -12,6 +12,7 @@ router.put('/:boatId', boatController.updateBoat);
 router.delete('/:boatId', boatController.deleteBoat);
 
 module.exports = router;
+
 
 
 /**
@@ -23,79 +24,13 @@ module.exports = router;
  *       scheme: bearer
  *       bearerFormat: JWT
  */
-/**
- * @swagger
- * components:
- *   schemas:
- *     Boat:
- *       type: object
- *       required:
- *         - Nom
- *         - Description
- *         - Marque
- *         - AnneeDeFabrication
- *         - URLDeLaPhoto
- *         - TypeDePermisRequis
- *         - TypeDeBateau
- *         - Equipements
- *         - MontantDeLaCaution
- *         - CapaciteMaximum
- *         - NombreDeCouchages
- *         - PortDAttache
- *         - PaysDAttache
- *         - Latitude
- *         - Longitude
- *         - TypeDeMotorisation
- *         - PuissanceDuMoteur
- *         - createdBy
- *       properties:
- *         Nom:
- *           type: string
- *         Description:
- *           type: string
- *         Marque:
- *           type: string
- *         AnneeDeFabrication:
- *           type: number
- *         URLDeLaPhoto:
- *           type: string
- *         TypeDePermisRequis:
- *           type: string
- *         TypeDeBateau:
- *           type: string
- *         Equipements:
- *           type: string
- *         MontantDeLaCaution:
- *           type: number
- *         CapaciteMaximum:
- *           type: number
- *         NombreDeCouchages:
- *           type: number
- *         PortDAttache:
- *           type: string
- *         PaysDAttache:
- *           type: string
- *         Latitude:
- *           type: number
- *         Longitude:
- *           type: number
- *         TypeDeMotorisation:
- *           type: string
- *         PuissanceDuMoteur:
- *           type: number
- *         createdBy:
- *           type: string
- *           format: uuid
- */
 
 /**
  * @swagger
  * tags:
  *   name: Boat
  *   description: Boat operations
- */
-
-/**
+ *
  * @swagger
  * /boats/all:
  *   get:
@@ -194,7 +129,6 @@ module.exports = router;
  *         description: ID of the boat to delete
  *         schema:
  *           type: string
- *           format: uuid
  *     responses:
  *       200:
  *         description: Boat deleted successfully
@@ -247,3 +181,67 @@ module.exports = router;
  *         description: Internal Server Error
  */
 
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     Boat:
+ *       type: object
+ *       required:
+ *         - Nom
+ *         - Description
+ *         - Marque
+ *         - AnneeDeFabrication
+ *         - URLDeLaPhoto
+ *         - TypeDePermisRequis
+ *         - TypeDeBateau
+ *         - Equipements
+ *         - MontantDeLaCaution
+ *         - CapaciteMaximum
+ *         - NombreDeCouchages
+ *         - PortDAttache
+ *         - PaysDAttache
+ *         - Latitude
+ *         - Longitude
+ *         - TypeDeMotorisation
+ *         - PuissanceDuMoteur
+ *         - createdBy
+ *       properties:
+ *         Nom:
+ *           type: string
+ *         Description:
+ *           type: string
+ *         Marque:
+ *           type: string
+ *         AnneeDeFabrication:
+ *           type: number
+ *         URLDeLaPhoto:
+ *           type: string
+ *         TypeDePermisRequis:
+ *           type: string
+ *         TypeDeBateau:
+ *           type: string
+ *         Equipements:
+ *           type: string
+ *         MontantDeLaCaution:
+ *           type: number
+ *         CapaciteMaximum:
+ *           type: number
+ *         NombreDeCouchages:
+ *           type: number
+ *         PortDAttache:
+ *           type: string
+ *         PaysDAttache:
+ *           type: string
+ *         Latitude:
+ *           type: number
+ *         Longitude:
+ *           type: number
+ *         TypeDeMotorisation:
+ *           type: string
+ *         PuissanceDuMoteur:
+ *           type: number
+ *         createdBy:
+ *           type: string
+ *           format: uuid
+ */
