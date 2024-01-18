@@ -101,21 +101,22 @@ const boatController = {
 
   findBoatByGeo: async (req, res) => {
     try {
-      const { latitude, longitude } = req.query;
-
-      if (!latitude || !longitude) {
-        return res
-          .status(400)
-          .json({ error: 'Latitude and longitude are required parameters.' });
+      const { minLatitude, maxLatitude, minLongitude, maxLongitude } = req.query;
+  
+      if (!minLatitude || !maxLatitude || !minLongitude || !maxLongitude) {
+        return res.status(400).json({ error: 'Minimum and maximum latitude and longitude are required parameters.' });
       }
-
-      const foundBoat = await Boat.findOne({ latitude, longitude });
-
-      if (!foundBoat) {
-        return res.status(404).json({ error: 'Boat not found.' });
+  
+      const boatsInArea = await Boat.find({
+        Latitude: { $gte: parseFloat(minLatitude), $lte: parseFloat(maxLatitude) },
+        Longitude: { $gte: parseFloat(minLongitude), $lte: parseFloat(maxLongitude) }
+      });
+  
+      if (boatsInArea.length === 0) {
+        return res.status(404).json({ error: 'No boats found in the specified area.' });
       }
-
-      res.json(foundBoat);
+  
+      res.json(boatsInArea);
     } catch (err) {
       res.status(400).json({ message: err.message });
     }
