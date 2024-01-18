@@ -9,10 +9,17 @@ router.put('/:fishingLogId', fishingLogController.updateFishingLog);
 router.delete('/:fishingLogId', fishingLogController.deleteFishingLog);
 router.get('/search', fishingLogController.searchFishingLog);
 
-
 module.exports = router;
+
+
 /**
  * @swagger
+ * tags:
+ *   name: FishingLog
+ *   description: FishingLog operations
+ *
+ * @swagger
+ * components:
  *   schemas:
  *     FishingLog:
  *       type: object
@@ -47,18 +54,15 @@ module.exports = router;
  *           description: ID of the owner (User) of the fishing log
  */
 
+
 /**
- * @swagger
- * tags:
- *   name: FishingLog
- *   description: FishingLog operations
- *
  * @swagger
  * /fishing-log:
  *   post:
  *     security:
- *       - BearerAuth: [] 
+ *       - BearerAuth: []
  *     summary: Create a new fishing log
+ *     tags: [FishingLog]
  *     requestBody:
  *       description: Fishing log object to be added
  *       content:
@@ -78,8 +82,9 @@ module.exports = router;
  *         description: Internal Server Error
  *   get:
  *     security:
- *       - BearerAuth: [] 
+ *       - BearerAuth: []
  *     summary: Get all fishing logs
+ *     tags: [FishingLog]
  *     responses:
  *       200:
  *         description: Successful operation
@@ -95,8 +100,9 @@ module.exports = router;
  * /fishing-log/{fishingLogId}:
  *   put:
  *     security:
- *       - BearerAuth: [] 
+ *       - BearerAuth: []
  *     summary: Update a fishing log by ID
+ *     tags: [FishingLog]
  *     parameters:
  *       - in: path
  *         name: fishingLogId
@@ -121,8 +127,9 @@ module.exports = router;
  *         description: Bad Request
  *   delete:
  *     security:
- *       - BearerAuth: [] 
+ *       - BearerAuth: []
  *     summary: Delete a fishing log by ID
+ *     tags: [FishingLog]
  *     parameters:
  *       - in: path
  *         name: fishingLogId
@@ -146,8 +153,9 @@ module.exports = router;
  * /fishing-log/search:
  *   get:
  *     security:
- *       - BearerAuth: [] 
+ *       - BearerAuth: []
  *     summary: Search for fishing logs
+ *     tags: [FishingLog]
  *     parameters:
  *       - in: query
  *         name: fishName

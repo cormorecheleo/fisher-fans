@@ -15,9 +15,7 @@ module.exports = router;
  * tags:
  *   name: Trips
  *   description: Operations related to fishing trips
- */
-
-/**
+ *
  * @swagger
  * /trips:
  *   post:
