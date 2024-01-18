@@ -11,7 +11,7 @@ const fishingLogSchema = Joi.object({
   place: Joi.string().required(),
   date: Joi.date().required(),
   releaseFish: Joi.bool().required(),
-  ownerFishingLogId: Joi.number().required(),
+  ownerFishingLogId: Joi.string().required(),
 });
 
 const updateFishingLogSchema = fishingLogSchema.fork(
