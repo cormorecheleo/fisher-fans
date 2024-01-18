@@ -13,12 +13,6 @@ router.get('/search', fishingLogController.searchFishingLog);
 module.exports = router;
 /**
  * @swagger
- * components:
- *   securitySchemes:
- *     BearerAuth:
- *       type: http
- *       scheme: bearer
- *       bearerFormat: JWT
  *   schemas:
  *     FishingLog:
  *       type: object
