@@ -45,7 +45,9 @@ Avant de commencer à travailler sur le projet, assurez-vous d'avoir les éléme
 Pour lancer l'application, utilisez la commande suivante :
 
 ```bash
-npm start
+npm run dev
+
+DOCUMENTATION SWAGGER: https://localhost:3000/api-docs
 
 ## pour run les test ##
  npm test tests/reservationsController.test.js && npm test tests/authController.test.js && npm test tests/boatController.test.js && npm test tests/userController.test.js

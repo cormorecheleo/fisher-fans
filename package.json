@@ -4,6 +4,7 @@
   "description": "Ce document fournit une documentation de base pour le projet Fisher Fans, une application basée sur Express.js. Assurez-vous de mettre à jour cette documentation au fur et à mesure que le projet évolue.",
   "main": "server.js",
   "scripts": {
+    "dev": "npx nodemon start.js",
     "test": "jest",
     "general-test": " npm test tests/reservationsController.test.js && npm test tests/authController.test.js && npm test tests/boatController.test.js && npm test tests/userController.test.js && npm test tests/fishingLogController.test.js"
   },
