@@ -3,6 +3,23 @@ const app = require('../server');
 const mongoose = require('mongoose');
 const User = require('../models/User');
 
+function generateRandomString(length) {
+  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  let result = '';
+  for (let i = 0; i < length; i++) {
+    result += characters.charAt(Math.floor(Math.random() * characters.length));
+  }
+  return result;
+}
+
+function generateRandomNumbers(count, min, max) {
+  const numbers = [];
+  for (let i = 0; i < count; i++) {
+    numbers.push(Math.floor(Math.random() * (max - min + 1)) + min);
+  }
+  return numbers;
+}
+
 describe('User Controller Tests', () => {
   let user;
   let token;
@@ -22,20 +39,21 @@ describe('User Controller Tests', () => {
       .send({
         name: "kopkpk2",
         dateOfBirth: "1990-01-01",
-        email: "test555555@example.com",
+        email: `${generateRandomString(10)}@example.com`,
         phone: "1234567890",
         address: "123 Main St",
         postalCode: "12345",
         city: "City",
         spokenLanguages: ["English", "French"],
         photoURL: "http://example.com/photo.jpg",
-        boatLicenseNumber: "12345678",
-        insuranceNumber: "123456789012",
+        boatLicenseNumber: `${generateRandomNumbers(8, 0, 9).join('')}`,
+        insuranceNumber: `${generateRandomNumbers(12, 0, 9).join('')}`,
         status: "particulier",
         password: "password1232"
       })
     token = response.body.token;
     user = response.body.user;
+    console.log('responseDeleteUser.bodyresponseDeleteUser.bodyresponseDeleteUser.bodyresponseDeleteUser.body', responseDeleteUser.body)
     userCanBeDelete = responseDeleteUser.body.user;
   }, 50000);
   afterAll(async () => {
