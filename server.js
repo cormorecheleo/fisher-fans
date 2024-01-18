@@ -21,7 +21,7 @@ app.use(express.json());
 app.use('/auth', authRoutes);
 app.use('/boats', authenticate, boatRoutes);
 app.use('/fishing-log',authenticate, fishingLogRoutes);
-app.use('/users',userRoutes);
+app.use('/users', userRoutes);
 app.use('/reservations', authenticate,reservationRoutes);
 app.use('/trips', authenticate, tripRoutes);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));

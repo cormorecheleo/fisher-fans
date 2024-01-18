@@ -285,4 +285,3 @@ module.exports = router;
  *           description: ID of the boat used for the trip
  *           example: 61e468773cc1ad001b3e2b2c
  */
-

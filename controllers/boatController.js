@@ -121,9 +121,5 @@ const boatController = {
       res.status(400).json({ message: err.message });
     }
   },
-  
-
-  
-};
 
 module.exports = boatController;
