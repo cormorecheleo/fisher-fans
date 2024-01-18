@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "test": "jest",
-    "general-test": " npm test tests/reservationsController.test.js && npm test tests/authController.test.js && npm test tests/boatController.test.js && npm test tests/userController.test.js && npm test tests/fishingLogController.test.js"
+    "general-test": " npm test tests/authController.test.js && npm test tests/boatController.test.js && npm test tests/userController.test.js && npm test tests/fishingLogController.test.js"
   },
   "jest": {
     "testEnvironment": "node"
