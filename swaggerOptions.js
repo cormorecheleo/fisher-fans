@@ -2,9 +2,9 @@ const options = {
     definition: {
       openapi: '3.0.0',
       info: {
-        title: 'Your API',
+        title: 'Fisher Fans',
         version: '1.0.0',
-        description: 'API documentation for your project',
+        description: 'API documentation',
       },
     },
     apis: ['./routes/*.js'], 
