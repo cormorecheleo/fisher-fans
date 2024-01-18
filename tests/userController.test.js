@@ -6,6 +6,7 @@ const User = require('../models/User');
 describe('User Controller Tests', () => {
   let user;
   let token;
+  let userCanBeDelete;
 
   beforeAll(async () => {
     await mongoose.connect(process.env.MONGODB_URI);
@@ -16,9 +17,26 @@ describe('User Controller Tests', () => {
         email: "jesttests@doe.com",
         password: "yourpassword"
       });
-
+    const responseDeleteUser = await request(app)
+      .post('/auth/signup')
+      .send({
+        name: "kopkpk2",
+        dateOfBirth: "1990-01-01",
+        email: "test555555@example.com",
+        phone: "1234567890",
+        address: "123 Main St",
+        postalCode: "12345",
+        city: "City",
+        spokenLanguages: ["English", "French"],
+        photoURL: "http://example.com/photo.jpg",
+        boatLicenseNumber: "12345678",
+        insuranceNumber: "123456789012",
+        status: "particulier",
+        password: "password1232"
+      })
     token = response.body.token;
     user = response.body.user;
+    userCanBeDelete = responseDeleteUser.body.user;
   }, 50000);
   afterAll(async () => {
     await mongoose.connection.close();
@@ -54,31 +72,13 @@ describe('User Controller Tests', () => {
   });
 
   it('should delete a user', async () => {
-    const response = await request(app)
-      .post('/auth/signup')
-      .send({
-        name: "kopkpk2",
-        dateOfBirth: "1990-01-01",
-        email: "test@example.com",
-        phone: "1234567890",
-        address: "123 Main St",
-        postalCode: "12345",
-        city: "City",
-        spokenLanguages: ["English", "French"],
-        photoURL: "http://example.com/photo.jpg",
-        boatLicenseNumber: "12345678",
-        insuranceNumber: "123456789012",
-        status: "particulier",
-        password: "password1232"
-      })
-      .expect(201);
-    console.log('response.body', response.body)
+    console.log('userCanBeDelete._id', userCanBeDelete._id);
     await request(app)
-      .delete(`/users/${response.body.user._id}`)
+      .delete(`/users/${userCanBeDelete._id}`)
       .set('Authorization', `Bearer ${token}`)
       .expect(200);
 
-    const checkUser = await User.findById(response.body.user._id);
+    const checkUser = await User.findById(userCanBeDelete._id);
     expect(checkUser).toBeNull();
   });
 });

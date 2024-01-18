@@ -41,6 +41,7 @@ describe('Auth Controller Tests', () => {
         password: "password123"
       })
       .expect(201);
+      console.log('response.body should sign up a new user',response.body);
 
     expect(response.body.token).toBeDefined();
   }, 30000);
@@ -58,32 +59,14 @@ describe('Auth Controller Tests', () => {
   }, 10000);
 
   it('should login an existing user', async () => {
-    // const hashedPassword = await bcrypt.hash("password123", 10);
-    // const user = await User.create({
-    //   name: "nininin",
-    //   dateOfBirth: "1990-01-01",
-    //   email: "login@example.com",
-    //   phone: "1234567890",
-    //   address: "123 Main St",
-    //   postalCode: "12345",
-    //   city: "City",
-    //   spokenLanguages: ["English", "French"],
-    //   photoURL: "http://example.com/photo.jpg",
-    //   boatLicenseNumber: "12345698",
-    //   insuranceNumber: "123456789092",
-    //   status: "particulier",
-    //   password: hashedPassword
-    // });
-
     const response = await request(app)
       .post('/auth/login')
       .send({
-        email: "test@example.com",
-        password: "password123"
+        email: "johnwd@doe.com",
+        password: "yourpassword"
       })
       .expect(200);
-
     expect(response.body.token).toBeDefined();
-  }, 10000);
+  });
 
 });
