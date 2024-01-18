@@ -8,7 +8,7 @@ const reservationController = {
     const userId = req.userId;
     try {
       const user = await User.findById(userId);
-      const trip = await Trip.findById(req.body.tripId);
+      const trip = await Trip.findById(req.body.trip);
       if (!user || !trip) {
         return res.status(404).json({ error: 'User or trip not found' });
       }
